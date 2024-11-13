@@ -1,0 +1,115 @@
+<div class="container mx-auto p-5">
+  <h1 class="text-3xl font-bold text-center mb-6">Gestión de Productos</h1>
+
+  <!-- Formulario de Agregar/Editar Producto -->
+  <div class="mb-6">
+    <h2 class="text-2xl font-semibold mb-4">{{ isEditing ? 'Editar Producto' : 'Agregar Producto' }}</h2>
+    <form (ngSubmit)="onSubmit()" class="space-y-4">
+      <div class="flex flex-col">
+        <label for="nombre" class="font-medium">Nombre</label>
+        <input
+          type="text"
+          id="nombre"
+          [(ngModel)]="product.nombre"
+          name="nombre"
+          required
+          class="px-4 py-2 border rounded-lg"
+          placeholder="Nombre del Producto"
+        />
+      </div>
+      <!-- Mensaje de error para nombre -->
+      <div *ngIf="!product.nombre && isFormSubmitted" class="text-red-600 text-sm">
+        El nombre es obligatorio.
+      </div>
+      <div class="flex flex-col">
+        <label for="descripcion" class="font-medium">Descripción</label>
+        <input
+          type="text"
+          id="descripcion"
+          [(ngModel)]="product.descripcion"
+          name="descripcion"
+          required
+          class="px-4 py-2 border rounded-lg"
+          placeholder="Descripción del Producto"
+        />
+      </div>
+      <div class="flex flex-col">
+        <label for="precio" class="font-medium">Precio</label>
+        <input
+          type="number"
+          id="precio"
+          [(ngModel)]="product.precio"
+          name="precio"
+          required
+          class="px-4 py-2 border rounded-lg"
+          placeholder="Precio del Producto"
+        />
+      </div>
+      <!-- Mensaje de error para precio -->
+      <div *ngIf="product.precio <= 0 && isFormSubmitted" class="text-red-600 text-sm">
+        El precio es obligatorio y debe ser mayor a cero.
+      </div>
+      <div class="flex flex-col">
+        <label for="cantidad" class="font-medium">Cantidad</label>
+        <input
+          type="number"
+          id="cantidad"
+          [(ngModel)]="product.cantidad"
+          name="cantidad"
+          required
+          class="px-4 py-2 border rounded-lg"
+          placeholder="Cantidad del Producto"
+        />
+      </div>
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+        {{ isEditing ? 'Actualizar Producto' : 'Agregar Producto' }}
+      </button>
+      <button type="button" (click)="resetForm()" class="ml-4 bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400">
+        Cancelar
+      </button>
+    </form>
+  </div>
+
+  <!-- Botón de actualizar -->
+  <button (click)="refreshProducts()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Actualizar</button>
+
+  <!-- Tabla de Productos -->
+  <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+    <table class="min-w-full table-auto">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="px-6 py-4 text-left font-medium text-gray-600">ID</th>
+          <th class="px-6 py-4 text-left font-medium text-gray-600">Nombre</th>
+          <th class="px-6 py-4 text-left font-medium text-gray-600">Descripción</th>
+          <th class="px-6 py-4 text-left font-medium text-gray-600">Precio</th>
+          <th class="px-6 py-4 text-left font-medium text-gray-600">Cantidad</th>
+          <th class="px-6 py-4 text-left font-medium text-gray-600">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <td class="px-6 py-4 text-center">{{ product.id }}</td>
+          <td class="px-6 py-4">{{ product.nombre }}</td>
+          <td class="px-6 py-4">{{ product.descripcion }}</td>
+          <td class="px-6 py-4">{{ product.precio }}</td>
+          <td class="px-6 py-4">{{ product.cantidad }}</td>
+          <td class="px-6 py-4 flex space-x-4">
+            <button
+              (click)="editProduct(product)"
+              class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600"
+            >
+              Editar
+            </button>
+            <button
+              (click)="deleteProduct(product.id!)"
+              class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+            >
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

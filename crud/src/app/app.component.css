@@ -1,0 +1,12 @@
+/* Estilos básicos de la tabla y el formulario */
+table {
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: left;
+}
+
+button {
+  cursor: pointer;
+}
